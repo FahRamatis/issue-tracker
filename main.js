@@ -32,6 +32,33 @@ function saveIssue(e) {
     e.preventDefault()
 }
 
+function setStatusClosed(id) {
+    var issues = JSON.parse(localStorage.getItem('issues'))
+
+    for (var i = 0; i < issues.length; i++) {
+        if (issues[i].id == id) {
+            issues[i].status = 'Closed'
+        }
+    }
+
+    localStorage.setItem('issues', JSON.stringify(issues))
+
+    fetchIssues()
+}
+
+function deleteIssue(id) {
+    var issues = JSON.parse(localStorage.getItem('issues'))
+
+    for (var i = 0; i < issues.length; i++) {
+        if (issues[i].id == id) {
+            issues.splice(i, 1)
+        }
+    }
+    localStorage.setItem('issues', JSON.stringify(issues))
+
+    fetchIssues()
+}
+
 function fetchIssues() {
     var issues = JSON.parse(localStorage.getItem('issues'))
     var issuesList = document.querySelector('#issuesList')
@@ -47,12 +74,12 @@ function fetchIssues() {
 
         issuesList.innerHTML += '<div class="well">' +
             '<h6>Issue ID: ' + id + '</h6>' +
-            '<p><span class="badge-default"> ' + status + '</span></p>' +
+            '<p><span class="text-white bg-primary"> ' + status + '</span></p>' +
             '<h3>' + desc + '</h3>' +
-            '<p><span class="glyphicon glyphicon-time"></span>' + severity + '</p>' +
-            '<p><span class="glyphicon glyphicon-user"></span>' + assignedTo + '</p>' +
-            '<a href="#" class="btn btn-warning" onclick="setStatusClosed(\'' + id + '\')">Close</a>'
-        '<a href="#" class="btn btn-danger" onclick="deleteIssue(\'' + id + '\')">Delete</a>'
+            '<p><span class="far fa-clock"></span>' + severity + '</p>' +
+            '<p><span class="fas fa-user"></span>' + assignedTo + '</p>' +
+            '<a href="#" class="btn btn-warning" onclick="setStatusClosed(\'' + id + '\')">Close</a>' +
+            '<a href="#" class="btn btn-danger" onclick="deleteIssue(\'' + id + '\')">Delete</a>'
         '</div>'
     }
 }
